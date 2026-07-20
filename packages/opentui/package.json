@@ -1,0 +1,13 @@
+{
+  "name": "@tuicons/opentui",
+  "version": "0.1.0",
+  "description": "OpenTUI adapter for TUIcons",
+  "type": "module",
+  "license": "MIT",
+  "sideEffects": false,
+  "exports": { ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" } },
+  "files": ["dist"],
+  "dependencies": { "@tuicons/core": "workspace:*" },
+  "peerDependencies": { "@opentui/core": ">=0.4.5 <1" },
+  "scripts": { "build": "tsc -b", "test": "vitest run" }
+}

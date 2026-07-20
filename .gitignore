@@ -1,0 +1,5 @@
+node_modules/
+dist/
+*.tsbuildinfo
+.tuicons.json
+.DS_Store

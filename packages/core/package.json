@@ -1,0 +1,14 @@
+{
+  "name": "@tuicons/core",
+  "version": "0.1.0",
+  "description": "Framework-agnostic terminal icon resolver",
+  "type": "module",
+  "license": "MIT",
+  "sideEffects": false,
+  "exports": {
+    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" }
+  },
+  "files": ["dist"],
+  "dependencies": { "@tuicons/nerd-fonts": "workspace:*" },
+  "scripts": { "build": "tsc -b", "test": "vitest run" }
+}

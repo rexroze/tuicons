@@ -1,0 +1,16 @@
+{
+  "name": "@tuicons/nerd-fonts",
+  "version": "0.1.0",
+  "description": "Generated, typed Nerd Fonts glyph registry",
+  "type": "module",
+  "license": "MIT",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": ["dist", "THIRD_PARTY_LICENSES.md"],
+  "scripts": { "build": "tsc -b" }
+}

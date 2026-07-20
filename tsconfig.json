@@ -1,0 +1,9 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./packages/nerd-fonts" },
+    { "path": "./packages/core" },
+    { "path": "./packages/opentui" },
+    { "path": "./packages/cli" }
+  ]
+}

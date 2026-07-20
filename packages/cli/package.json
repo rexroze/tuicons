@@ -1,0 +1,12 @@
+{
+  "name": "@tuicons/cli",
+  "version": "0.1.0",
+  "description": "Search and diagnose TUIcons from the terminal",
+  "type": "module",
+  "license": "MIT",
+  "bin": { "tuicons": "./dist/cli.js" },
+  "exports": { ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" } },
+  "files": ["dist"],
+  "dependencies": { "@tuicons/core": "workspace:*" },
+  "scripts": { "build": "tsc -b" }
+}
