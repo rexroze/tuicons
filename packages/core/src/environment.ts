@@ -8,9 +8,8 @@ export function resolveMode(
 
   const configured = env.TUICONS_MODE;
   if (configured === "nerd-font" || configured === "unicode" || configured === "ascii") return configured;
-  if (env.TERM === "linux" || env.NO_COLOR !== undefined) return "ascii";
 
   // A process cannot inspect the glyphs rendered by its terminal. Safe Unicode
-  // is the only default that can uphold the no-missing-glyph-box guarantee.
+  // avoids private-use glyphs unless the user explicitly opts into them.
   return "unicode";
 }

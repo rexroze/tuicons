@@ -4,13 +4,25 @@
   "description": "Generated, typed Nerd Fonts glyph registry",
   "type": "module",
   "license": "MIT",
+  "homepage": "https://github.com/rexroze/tuicons/tree/main/packages/nerd-fonts#readme",
+  "bugs": { "url": "https://github.com/rexroze/tuicons/issues" },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rexroze/tuicons.git",
+    "directory": "packages/nerd-fonts"
+  },
+  "keywords": ["terminal", "icons", "nerd-fonts", "glyphs", "metadata"],
+  "engines": { "node": ">=20" },
   "sideEffects": false,
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
     }
   },
-  "files": ["dist", "THIRD_PARTY_LICENSES.md"],
+  "files": ["dist", "!dist/**/*.test.*", "!dist/**/*.tsbuildinfo", "README.md", "LICENSE", "LICENSE-NERD-FONTS", "THIRD_PARTY_LICENSES.md"],
+  "publishConfig": { "access": "public", "provenance": true },
   "scripts": { "build": "tsc -b" }
 }

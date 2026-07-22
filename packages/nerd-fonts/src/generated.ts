@@ -3,6 +3,7 @@ import type { NerdFontIcon } from "./types.js";
 
 export const nerdFontsVersion = "3.4.0";
 export const nerdFontSource = "https://raw.githubusercontent.com/ryanoasis/nerd-fonts/v3.4.0/glyphnames.json";
+export const nerdFontSourceSha256 = "e2d10d23f5bff0bd6f0676e9b01d9789fcdc656de7b498a2955c27716ea4439c";
 export const nerdFontIcons: readonly NerdFontIcon[] = [
   {
     "name": "nf-cod-account",

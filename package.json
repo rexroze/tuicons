@@ -5,6 +5,10 @@
   "type": "module",
   "description": "Typed Nerd Font icons with safe terminal fallbacks",
   "license": "MIT",
+  "homepage": "https://github.com/rexroze/tuicons#readme",
+  "bugs": {
+    "url": "https://github.com/rexroze/tuicons/issues"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rexroze/tuicons.git"
@@ -16,25 +20,30 @@
     "nerd-fonts",
     "opentui"
   ],
-  "packageManager": "pnpm@10.23.0",
+  "packageManager": "pnpm@10.34.5",
   "engines": {
     "node": ">=20"
   },
   "scripts": {
     "build": "pnpm generate && tsc -b",
-    "check": "pnpm generate:check && tsc -b --pretty false && vitest run",
+    "check": "pnpm generate:check && pnpm typecheck && pnpm test",
     "clean": "tsc -b --clean",
     "generate": "tsx scripts/generate-nerd-fonts.ts",
     "generate:check": "tsx scripts/generate-nerd-fonts.ts --check",
+    "pack:check": "pnpm build && pnpm pack:lint && tsx scripts/check-packages.ts",
+    "pack:lint": "publint packages/nerd-fonts && publint packages/core && publint packages/opentui && publint packages/cli",
+    "release:check": "pnpm check && pnpm pack:check",
     "test": "vitest run",
     "test:watch": "vitest",
+    "typecheck": "tsc -b --pretty false && tsc -p scripts/tsconfig.json --pretty false",
     "tuicons": "node packages/cli/dist/cli.js"
   },
   "devDependencies": {
     "@opentui/core": "0.4.5",
     "@types/node": "^22.15.0",
+    "publint": "^0.3.21",
     "tsx": "^4.19.0",
     "typescript": "^5.8.0",
-    "vitest": "^3.1.0"
+    "vitest": "^4.1.10"
   }
 }

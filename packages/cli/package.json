@@ -4,9 +4,20 @@
   "description": "Search and diagnose TUIcons from the terminal",
   "type": "module",
   "license": "MIT",
+  "homepage": "https://github.com/rexroze/tuicons/tree/main/packages/cli#readme",
+  "bugs": { "url": "https://github.com/rexroze/tuicons/issues" },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rexroze/tuicons.git",
+    "directory": "packages/cli"
+  },
+  "keywords": ["cli", "tui", "terminal", "icons", "nerd-fonts"],
+  "engines": { "node": ">=20" },
   "bin": { "tuicons": "./dist/cli.js" },
-  "exports": { ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" } },
-  "files": ["dist"],
+  "types": "./dist/index.d.ts",
+  "exports": { ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js", "default": "./dist/index.js" } },
+  "files": ["dist", "!dist/**/*.test.*", "!dist/**/*.tsbuildinfo", "README.md", "LICENSE"],
+  "publishConfig": { "access": "public", "provenance": true },
   "dependencies": { "@tuicons/core": "workspace:*" },
   "scripts": { "build": "tsc -b" }
 }

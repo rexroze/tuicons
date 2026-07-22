@@ -1,11 +1,22 @@
-# Third-party icon licenses
+# Third-party notices
 
-The generated registry maps glyph names and code points published by the
-[Nerd Fonts project](https://github.com/ryanoasis/nerd-fonts). Nerd Fonts
-combines icon sets with different upstream licenses. TUIcons does not claim
-ownership of those glyph designs.
+The generated registry in this package is derived from Nerd Fonts 3.4.0
+[`glyphnames.json`](https://raw.githubusercontent.com/ryanoasis/nerd-fonts/v3.4.0/glyphnames.json).
+Its exact SHA-256 digest is:
 
-Distributors must retain and review the license information in Nerd Fonts'
-[`license`](https://github.com/ryanoasis/nerd-fonts/tree/master/license)
-directory for the icon sets they use. The generated source records the exact
-Nerd Fonts version and source URL to make that audit reproducible.
+```text
+e2d10d23f5bff0bd6f0676e9b01d9789fcdc656de7b498a2955c27716ea4439c
+```
+
+Nerd Fonts states that source files not located in folders with an explicit
+license use the MIT License. A copy of the Nerd Fonts 3.4.0 root
+license is included as `LICENSE-NERD-FONTS`.
+
+This package distributes names, code points, provider metadata, and characters;
+it does not distribute font files or glyph artwork. The visual shapes rendered
+for private-use characters come from the font installed by the user. Nerd Fonts
+aggregates glyph sets under several upstream licenses; applications that also
+redistribute Nerd Font files or artwork must review the corresponding licenses
+in the tagged upstream repository.
+
+TUIcons does not claim ownership of Nerd Fonts or any upstream icon design.
