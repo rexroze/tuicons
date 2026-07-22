@@ -4,9 +4,20 @@
   "description": "OpenTUI adapter for TUIcons",
   "type": "module",
   "license": "MIT",
+  "homepage": "https://github.com/rexroze/tuicons/tree/main/packages/opentui#readme",
+  "bugs": { "url": "https://github.com/rexroze/tuicons/issues" },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rexroze/tuicons.git",
+    "directory": "packages/opentui"
+  },
+  "keywords": ["opentui", "tui", "terminal", "icons", "nerd-fonts"],
+  "engines": { "node": ">=20" },
   "sideEffects": false,
-  "exports": { ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" } },
-  "files": ["dist"],
+  "types": "./dist/index.d.ts",
+  "exports": { ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js", "default": "./dist/index.js" } },
+  "files": ["dist", "!dist/**/*.test.*", "!dist/**/*.tsbuildinfo", "README.md", "LICENSE"],
+  "publishConfig": { "access": "public", "provenance": true },
   "dependencies": { "@tuicons/core": "workspace:*" },
   "peerDependencies": { "@opentui/core": ">=0.4.5 <1" },
   "scripts": { "build": "tsc -b", "test": "vitest run" }

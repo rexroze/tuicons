@@ -4,11 +4,22 @@
   "description": "Framework-agnostic terminal icon resolver",
   "type": "module",
   "license": "MIT",
-  "sideEffects": false,
-  "exports": {
-    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" }
+  "homepage": "https://github.com/rexroze/tuicons/tree/main/packages/core#readme",
+  "bugs": { "url": "https://github.com/rexroze/tuicons/issues" },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rexroze/tuicons.git",
+    "directory": "packages/core"
   },
-  "files": ["dist"],
+  "keywords": ["tui", "terminal", "icons", "nerd-fonts", "unicode"],
+  "engines": { "node": ">=20" },
+  "sideEffects": false,
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js", "default": "./dist/index.js" }
+  },
+  "files": ["dist", "!dist/**/*.test.*", "!dist/**/*.tsbuildinfo", "README.md", "LICENSE"],
+  "publishConfig": { "access": "public", "provenance": true },
   "dependencies": { "@tuicons/nerd-fonts": "workspace:*" },
   "scripts": { "build": "tsc -b", "test": "vitest run" }
 }

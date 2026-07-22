@@ -1,18 +1,76 @@
 # TUIcons
 
-TUIcons is a typed, searchable icon library for terminal interfaces. It turns
-opaque private-use glyphs into stable names, exposes the complete Nerd Fonts
-registry, and keeps applications usable when a Nerd Font is unavailable.
+[![CI](https://github.com/rexroze/tuicons/actions/workflows/ci.yml/badge.svg)](https://github.com/rexroze/tuicons/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
+Typed, searchable terminal icons with Unicode and ASCII fallbacks.
+
+TUIcons gives private-use Nerd Font glyphs stable names, exposes the complete
+Nerd Fonts registry, and keeps applications readable when a Nerd Font is not
+configured.
 
 ```ts
 import { icon } from "@tuicons/core";
 
-icon("play");                       // ▶ (safe default)
+icon("play"); // ▶
 icon("play", { mode: "nerd-font" }); // Nerd Font play glyph
-icon("folder", { mode: "ascii" });   // [D]
+icon("folder", { mode: "ascii" }); // [D]
 ```
 
-OpenTUI imperative API:
+## Install
+
+TUIcons is ESM-only and supports Node.js 20 and newer.
+
+```sh
+npm install @tuicons/core
+```
+
+Use the OpenTUI adapter or CLI only when needed:
+
+```sh
+npm install @tuicons/opentui @opentui/core
+npm install --global @tuicons/cli
+```
+
+## Modes
+
+| Mode | Output | Use it when |
+| --- | --- | --- |
+| `auto` | Unicode by default | You want a portable default and optional environment configuration |
+| `unicode` | Standard Unicode | A Nerd Font is not required |
+| `ascii` | ASCII fallbacks | The terminal or font has limited Unicode coverage |
+| `nerd-font` | Private-use glyphs | The rendering terminal is configured with Nerd Fonts 3.4.0-compatible symbols |
+
+`auto` never guesses that a Nerd Font is installed. Set `TUICONS_MODE` to
+`nerd-font`, `unicode`, or `ascii`, or pass `mode` explicitly. Unicode avoids
+Nerd Fonts' private-use code points, but no library can guarantee that every
+font contains every Unicode symbol; use `ascii` for the most conservative
+output.
+
+## Core API
+
+```ts
+import {
+  icon,
+  resolveIcon,
+  searchIcons,
+  semanticIcons,
+} from "@tuicons/core";
+
+icon("delete", { mode: "unicode" }); // alias for "trash"
+
+resolveIcon("play", { mode: "ascii" });
+// { name: "play", glyph: ">", mode: "ascii", label: "play" }
+
+searchIcons("folder", 10);
+semanticIcons; // curated definitions and fallbacks
+```
+
+Semantic names and aliases work in every mode. Raw `nf-*` names only emit
+private-use glyphs in explicit `nerd-font` mode; other modes return the
+configured unknown fallback (`?` by default).
+
+## OpenTUI
 
 ```ts
 import { createCliRenderer } from "@opentui/core";
@@ -22,48 +80,50 @@ const renderer = await createCliRenderer();
 renderer.root.add(Icon(renderer, { name: "play", fg: "#7dd3fc" }));
 ```
 
-## Why the default is safe Unicode
+`iconText()` is also available when a string is more convenient than a
+`TextRenderable`.
 
-The terminal emulator renders text, and a process running inside it cannot
-reliably inspect the active font or see a missing-glyph box. `auto` therefore
-uses safe Unicode unless `TUICONS_MODE` is explicitly configured. This is the
-only honest way to guarantee that the library does not intentionally produce
-broken boxes on a fresh installation.
+## CLI
 
-After configuring a Nerd Font, verify it and opt in:
-
-```powershell
-pnpm tuicons doctor
-$env:TUICONS_MODE = "nerd-font"
+```sh
+tuicons search music
+tuicons show folder --mode ascii
+tuicons list --mode unicode
+tuicons doctor
+tuicons setup
 ```
 
-Applications can also pass `{ mode: "nerd-font" }` in their own configuration.
+`doctor` shows a visual glyph test and explains an important boundary: during
+SSH, the font must be installed on the local machine rendering the terminal,
+not only on the remote host.
 
 ## Packages
 
-- `@tuicons/nerd-fonts`: generated typed metadata for every Nerd Fonts 3.4.0 glyph
-- `@tuicons/core`: semantic names, fallback resolution, aliases, and search
-- `@tuicons/opentui`: a thin OpenTUI `TextRenderable` adapter
-- `@tuicons/cli`: search, preview, diagnostics, and guided setup
+- [`@tuicons/core`](packages/core): semantic icons, fallback resolution, aliases, and search
+- [`@tuicons/nerd-fonts`](packages/nerd-fonts): generated metadata for all 10,764 Nerd Fonts 3.4.0 glyphs
+- [`@tuicons/opentui`](packages/opentui): thin OpenTUI `TextRenderable` adapter
+- [`@tuicons/cli`](packages/cli): search, preview, diagnostics, and setup guidance
 
 ## Development
 
 ```sh
-pnpm install
-pnpm generate
+corepack enable
+pnpm install --frozen-lockfile
 pnpm check
-pnpm build
-node packages/cli/dist/cli.js search music
+pnpm pack:check
 ```
 
-The generator is pinned to one Nerd Fonts release. Registry changes are
-reviewable and cannot silently follow upstream code-point changes.
+The generator downloads one tagged Nerd Fonts registry and verifies its pinned
+SHA-256 checksum before producing source. `pack:check` builds the packages,
+inspects their tarballs, installs them into a clean temporary consumer project,
+and runs API and CLI smoke tests.
 
-## Roadmap
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the contribution and release process,
+[SECURITY.md](SECURITY.md) for private vulnerability reporting, and
+[docs/PRD.md](docs/PRD.md) for product requirements.
 
-The next adapters are OpenTUI React, Ink, and JSON bindings for Rust, Go,
-and Python. All adapters consume the framework-agnostic resolver; none owns a
-separate icon catalog.
+## License
 
-See [docs/PRD.md](docs/PRD.md) for product requirements and
-[docs/CODEX_PROMPT.md](docs/CODEX_PROMPT.md) for the implementation handoff.
+TUIcons code is available under the [MIT License](LICENSE). The generated Nerd
+Fonts registry retains upstream provenance and notices; see
+[`packages/nerd-fonts/THIRD_PARTY_LICENSES.md`](packages/nerd-fonts/THIRD_PARTY_LICENSES.md).

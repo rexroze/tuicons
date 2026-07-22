@@ -1,0 +1,41 @@
+name: Bug report
+description: Report incorrect behavior or a compatibility problem
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for helping improve TUIcons. Do not report vulnerabilities here; use the private process in SECURITY.md.
+  - type: input
+    id: version
+    attributes:
+      label: TUIcons version
+      placeholder: 0.1.0
+    validations:
+      required: true
+  - type: dropdown
+    id: package
+    attributes:
+      label: Package
+      options:
+        - "@tuicons/core"
+        - "@tuicons/nerd-fonts"
+        - "@tuicons/opentui"
+        - "@tuicons/cli"
+        - Repository tooling
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Include the command or code, expected result, actual result, and relevant terminal/font configuration.
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: Node 22, Windows Terminal, PowerShell 7, TUICONS_MODE=unicode
+    validations:
+      required: true
