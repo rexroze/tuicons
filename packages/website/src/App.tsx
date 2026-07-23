@@ -1,11 +1,19 @@
-import { HashRouter, Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
+import { HashRouter, Routes, Route, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import Icons from "./pages/Icons";
 import IconDetail from "./pages/IconDetail";
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
+  return null;
+}
+
 export default function App() {
   return (
     <HashRouter>
+      <ScrollToTop />
       <div className="min-h-screen bg-bg text-body font-sans">
         {/* ---- Shared header ---- */}
         <header className="border-b border-edge bg-bg/90 backdrop-blur-md sticky top-0 z-40">
