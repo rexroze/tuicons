@@ -44,17 +44,41 @@ function useToast() {
 /* ------------------------------------------------------------------ */
 
 const categoryColors: Record<string, { bg: string; text: string; dot: string }> = {
-  media:       { bg: "bg-blue-500/10",  text: "text-blue-400",  dot: "bg-blue-400" },
-  actions:     { bg: "bg-amber-500/10", text: "text-amber-400", dot: "bg-amber-400" },
-  navigation:  { bg: "bg-violet-500/10",text: "text-violet-400",dot: "bg-violet-400" },
-  status:      { bg: "bg-emerald-500/10",text: "text-emerald-400",dot: "bg-emerald-400" },
-  files:       { bg: "bg-sky-500/10",   text: "text-sky-400",   dot: "bg-sky-400" },
-  development: { bg: "bg-rose-500/10",  text: "text-rose-400",  dot: "bg-rose-400" },
-  devices:     { bg: "bg-cyan-500/10",  text: "text-cyan-400",  dot: "bg-cyan-400" },
-  system:      { bg: "bg-stone-500/10", text: "text-stone-400", dot: "bg-stone-400" },
-  brands:      { bg: "bg-orange-500/10",text: "text-orange-400",dot: "bg-orange-400" },
-  music:       { bg: "bg-pink-500/10",  text: "text-pink-400",  dot: "bg-pink-400" },
+  media:         { bg: "bg-blue-500/10",    text: "text-blue-400",    dot: "bg-blue-400" },
+  actions:       { bg: "bg-amber-500/10",   text: "text-amber-400",   dot: "bg-amber-400" },
+  navigation:    { bg: "bg-violet-500/10",  text: "text-violet-400",  dot: "bg-violet-400" },
+  status:        { bg: "bg-emerald-500/10", text: "text-emerald-400", dot: "bg-emerald-400" },
+  files:         { bg: "bg-sky-500/10",     text: "text-sky-400",     dot: "bg-sky-400" },
+  development:   { bg: "bg-rose-500/10",    text: "text-rose-400",    dot: "bg-rose-400" },
+  devices:       { bg: "bg-cyan-500/10",    text: "text-cyan-400",    dot: "bg-cyan-400" },
+  system:        { bg: "bg-stone-500/10",   text: "text-stone-400",   dot: "bg-stone-400" },
+  brands:        { bg: "bg-orange-500/10",  text: "text-orange-400",  dot: "bg-orange-400" },
+  music:         { bg: "bg-pink-500/10",    text: "text-pink-400",    dot: "bg-pink-400" },
+  arrows:        { bg: "bg-indigo-500/10",  text: "text-indigo-400",  dot: "bg-indigo-400" },
+  communication: { bg: "bg-teal-500/10",    text: "text-teal-400",    dot: "bg-teal-400" },
+  people:        { bg: "bg-fuchsia-500/10", text: "text-fuchsia-400", dot: "bg-fuchsia-400" },
+  security:      { bg: "bg-red-500/10",     text: "text-red-400",     dot: "bg-red-400" },
+  weather:       { bg: "bg-cyan-500/10",    text: "text-cyan-400",    dot: "bg-cyan-400" },
+  time:          { bg: "bg-amber-500/10",   text: "text-amber-400",   dot: "bg-amber-400" },
+  shapes:        { bg: "bg-purple-500/10",  text: "text-purple-400",  dot: "bg-purple-400" },
+  design:        { bg: "bg-pink-500/10",    text: "text-pink-400",    dot: "bg-pink-400" },
+  buildings:     { bg: "bg-stone-500/10",   text: "text-stone-400",   dot: "bg-stone-400" },
+  transportation:{ bg: "bg-lime-500/10",    text: "text-lime-400",    dot: "bg-lime-400" },
+  commerce:      { bg: "bg-yellow-500/10",  text: "text-yellow-400",  dot: "bg-yellow-400" },
+  health:        { bg: "bg-green-500/10",   text: "text-green-400",   dot: "bg-green-400" },
+  food:          { bg: "bg-orange-500/10",  text: "text-orange-400",  dot: "bg-orange-400" },
+  gaming:        { bg: "bg-violet-500/10",  text: "text-violet-400",  dot: "bg-violet-400" },
+  text:          { bg: "bg-slate-500/10",   text: "text-slate-400",   dot: "bg-slate-400" },
+  math:          { bg: "bg-blue-500/10",    text: "text-blue-400",    dot: "bg-blue-400" },
+  layout:        { bg: "bg-gray-500/10",    text: "text-gray-400",    dot: "bg-gray-400" },
+  connectivity:  { bg: "bg-teal-500/10",    text: "text-teal-400",    dot: "bg-teal-400" },
+  accessibility: { bg: "bg-sky-500/10",     text: "text-sky-400",     dot: "bg-sky-400" },
+  science:       { bg: "bg-indigo-500/10",  text: "text-indigo-400",  dot: "bg-indigo-400" },
+  nature:        { bg: "bg-emerald-500/10", text: "text-emerald-400", dot: "bg-emerald-400" },
+  seasons:       { bg: "bg-blue-500/10",    text: "text-blue-400",    dot: "bg-blue-400" },
 };
+
+const defaultCategoryColor = { bg: "bg-gray-500/10", text: "text-gray-400", dot: "bg-gray-400" };
 
 /* ------------------------------------------------------------------ */
 /*  Section wrapper                                                    */
@@ -236,7 +260,7 @@ export default function App() {
                 All
               </button>
               {allCategories.map((cat) => {
-                const col = categoryColors[cat];
+                const col = categoryColors[cat] ?? defaultCategoryColor;
                 const isActive = activeCategory === cat;
                 return (
                   <button
