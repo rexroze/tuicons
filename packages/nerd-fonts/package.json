@@ -12,5 +12,6 @@
     }
   },
   "files": ["dist", "THIRD_PARTY_LICENSES.md"],
+  "publishConfig": { "access": "public" },
   "scripts": { "build": "tsc -b" }
 }
