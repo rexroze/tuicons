@@ -5,18 +5,7 @@ import { semanticIcons, type SemanticIconDefinition } from "./icons";
 /*  Types & helpers                                                    */
 /* ------------------------------------------------------------------ */
 
-const allCategories = [
-  "media",
-  "actions",
-  "navigation",
-  "status",
-  "files",
-  "development",
-  "devices",
-  "system",
-  "brands",
-  "music",
-] as const;
+const allCategories = [...new Set(semanticIcons.flatMap((i) => i.categories))].sort();
 
 function matchesQuery(icon: SemanticIconDefinition, query: string): boolean {
   if (!query) return true;
@@ -39,7 +28,7 @@ function iconImportSnippet(name: string): string {
 
 function useToast() {
   const [toast, setToast] = useState<string | null>(null);
-  const timer = useRef<ReturnType<typeof setTimeout>>();
+  const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const show = useCallback((msg: string) => {
     setToast(msg);
@@ -176,7 +165,7 @@ export default function App() {
             {/* Badge */}
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-teal-accent/20 bg-teal-accent/5 px-4 py-1.5 text-xs font-medium tracking-wide text-teal-accent">
               <span className="inline-block h-1.5 w-1.5 rounded-full bg-teal-accent" />
-              v0.1.0 · 52 semantic icons
+              v0.1.0 · {semanticIcons.length} semantic icons
             </div>
 
             <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
