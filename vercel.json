@@ -1,0 +1,10 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "github": {
+    "silent": true
+  },
+  "installCommand": "pnpm install --frozen-lockfile=false",
+  "buildCommand": "pnpm --filter @tuicons/core build && pnpm --filter @tuicons/website build",
+  "outputDirectory": "packages/website/dist",
+  "framework": null
+}

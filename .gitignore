@@ -3,3 +3,5 @@ dist/
 *.tsbuildinfo
 .tuicons.json
 .DS_Store
+.vercel
+.env*
