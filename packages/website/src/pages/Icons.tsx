@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback, useRef, useEffect } from "react";
+import { useMemo, useEffect, useRef } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { semanticIcons, type SemanticIconDefinition } from "../icons";
 
@@ -30,17 +30,6 @@ function catStyle(cat: string, field: "colors" | "dot") {
   return (field === "colors" ? CAT_PALETTE : CAT_DOT)[i % 10]!;
 }
 
-function useToast() {
-  const [toast, setToast] = useState<string | null>(null);
-  const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
-  const show = useCallback((msg: string) => {
-    setToast(msg);
-    clearTimeout(timer.current);
-    timer.current = setTimeout(() => setToast(null), 2000);
-  }, []);
-  return { toast, show };
-}
-
 /* ================================================================== */
 /*  Icons Page                                                         */
 /* ================================================================== */
@@ -49,8 +38,6 @@ export default function Icons() {
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get("q") ?? "";
   const activeCat = searchParams.get("cat") ?? null;
-  const [copied, setCopied] = useState<string | null>(null);
-  const { toast, show } = useToast();
   const searchRef = useRef<HTMLInputElement>(null);
 
   const setQuery = (q: string) => {
@@ -70,14 +57,6 @@ export default function Icons() {
     if (activeCat) r = r.filter((i) => i.categories.includes(activeCat));
     return r;
   }, [query, activeCat]);
-
-  const handleCopy = useCallback(async (name: string) => {
-    const code = `import { icon } from "@tuicons/core";\nicon("${name}")`;
-    try { await navigator.clipboard.writeText(code); } catch { /* fallback */ }
-    setCopied(name);
-    show(`Copied: icon("${name}")`);
-    setTimeout(() => setCopied(null), 1200);
-  }, [show]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -100,9 +79,7 @@ export default function Icons() {
             className={`block w-full rounded-md px-3 py-1.5 text-left text-xs font-medium transition-colors ${
               activeCat === null ? "bg-accent/10 text-accent" : "text-muted hover:text-body"
             }`}
-          >
-            All icons
-          </button>
+          >All icons</button>
           {allCategories.map((cat) => {
             const isActive = activeCat === cat;
             return (
@@ -113,8 +90,7 @@ export default function Icons() {
                   isActive ? "bg-surface text-body ring-1 ring-edge" : "text-muted hover:text-body hover:bg-surface/50"
                 }`}
               >
-                <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${catStyle(cat, "dot")}`} />
-                {cat}
+                <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${catStyle(cat, "dot")}`} />{cat}
               </button>
             );
           })}
@@ -174,34 +150,15 @@ export default function Icons() {
         {filtered.length > 0 ? (
           <div className="grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-5 xl:grid-cols-6">
             {filtered.map((ic) => (
-              <button
+              <Link
                 key={ic.name}
-                onClick={() => handleCopy(ic.name)}
+                to={`/icons/${ic.name}`}
                 className="group relative flex flex-col items-center gap-1 rounded-lg border border-edge bg-surface p-3 text-center transition-all hover:border-accent/30 hover:shadow-sm active:scale-[0.97]"
               >
-                <Link
-                  to={`/icons/${ic.name}`}
-                  onClick={(e) => e.stopPropagation()}
-                  className="absolute top-2 right-2 rounded p-1 text-muted/40 opacity-0 transition-all hover:text-muted group-hover:opacity-100"
-                  title="View details"
-                >
-                  <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                  </svg>
-                </Link>
-                <span className="font-mono text-3xl leading-none text-body transition-colors group-hover:text-accent sm:text-4xl md:text-5xl">
-                  {ic.unicode}
-                </span>
+                <span className="font-mono text-3xl leading-none text-body transition-colors group-hover:text-accent sm:text-4xl md:text-5xl">{ic.unicode}</span>
                 <span className="w-full truncate text-[11px] font-medium leading-tight text-body/60 transition-colors group-hover:text-body/90">{ic.name}</span>
                 <span className="font-mono text-[9px] leading-tight text-muted/50">{ic.ascii}</span>
-                {copied === ic.name && (
-                  <span className="absolute inset-0 flex items-center justify-center rounded-lg bg-accent/10 backdrop-blur-[1px] animate-fade-in">
-                    <svg className="h-5 w-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                    </svg>
-                  </span>
-                )}
-              </button>
+              </Link>
             ))}
           </div>
         ) : (
@@ -211,18 +168,6 @@ export default function Icons() {
           </div>
         )}
       </div>
-
-      {/* Toast */}
-      {toast && (
-        <div className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 animate-scale-in pointer-events-none">
-          <div className="inline-flex items-center gap-2 rounded-lg border border-accent/20 bg-surface px-4 py-2.5 shadow-lg">
-            <svg className="h-3.5 w-3.5 shrink-0 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-            </svg>
-            <span className="text-sm text-body">{toast}</span>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

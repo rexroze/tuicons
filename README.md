@@ -65,5 +65,6 @@ The next adapters are OpenTUI React, Ink, and JSON bindings for Rust, Go,
 and Python. All adapters consume the framework-agnostic resolver; none owns a
 separate icon catalog.
 
-See [docs/PRD.md](docs/PRD.md) for product requirements and
-[docs/CODEX_PROMPT.md](docs/CODEX_PROMPT.md) for the implementation handoff.
+## Website
+
+Browse all 420+ semantic icons at [tuicons.vercel.app](https://tuicons.vercel.app).

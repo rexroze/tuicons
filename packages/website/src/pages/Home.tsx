@@ -35,8 +35,8 @@ export default function Home() {
   return (
     <>
       {/* Hero */}
-      <section className="mx-auto max-w-7xl px-4 pt-16 pb-12 sm:px-6 sm:pt-24 sm:pb-16">
-        <div className="max-w-2xl">
+      <section className="mx-auto max-w-7xl px-4 pt-16 pb-12 sm:px-6 sm:pt-24 sm:pb-16 text-center">
+        <div className="mx-auto max-w-2xl flex flex-col items-center">
           <span className="inline-flex items-center gap-1 rounded-full border border-accent/20 bg-accent/5 px-3 py-1 font-mono text-[10px] font-medium text-accent">
             v0.1.0 · {semanticIcons.length} semantic icons
           </span>
