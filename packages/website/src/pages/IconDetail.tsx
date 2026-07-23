@@ -13,9 +13,10 @@ function useToast() {
   return { toast, show };
 }
 
-const MODE_PALETTE = ["bg-rose-500/10", "bg-amber-500/10", "bg-emerald-500/10",
-  "bg-sky-500/10", "bg-violet-500/10", "bg-cyan-500/10",
-  "bg-fuchsia-500/10", "bg-lime-500/10", "bg-orange-500/10", "bg-indigo-500/10"];
+const CAT_DOT = [
+  "bg-rose-400", "bg-amber-400", "bg-emerald-400", "bg-sky-400", "bg-violet-400",
+  "bg-cyan-400", "bg-fuchsia-400", "bg-lime-400", "bg-orange-400", "bg-indigo-400",
+];
 
 export default function IconDetail() {
   const { name } = useParams<{ name: string }>();
@@ -29,9 +30,7 @@ export default function IconDetail() {
       const ta = document.createElement("textarea");
       ta.value = text;
       ta.style.position = "fixed"; ta.style.opacity = "0";
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand("copy");
+      document.body.appendChild(ta); ta.select(); document.execCommand("copy");
       document.body.removeChild(ta);
     }
     setCopied(label);
@@ -54,7 +53,6 @@ export default function IconDetail() {
   const nerdFontSnippet = `icon("${icon.name}", { mode: "nerd-font" })`;
   const asciiSnippet = `icon("${icon.name}", { mode: "ascii" })`;
 
-  // Find related icons (same categories)
   const related = semanticIcons
     .filter((i) => i.name !== icon.name && i.categories.some((c) => icon.categories.includes(c)))
     .slice(0, 8);
@@ -68,38 +66,34 @@ export default function IconDetail() {
         <span className="text-body font-medium">{icon.name}</span>
       </div>
 
-      {/* Header */}
+      {/* Header: glyph + metadata */}
       <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
-        {/* Large glyph preview */}
-        <div className="flex shrink-0 items-center justify-center rounded-xl border border-edge bg-surface p-8 lg:p-12">
-          <span className="font-mono text-7xl leading-none text-body sm:text-8xl lg:text-9xl">{icon.unicode}</span>
+        {/* Specimen glyph */}
+        <div className="flex shrink-0 items-center justify-center rounded-xl border border-edge bg-surface p-8 sm:p-12 lg:p-16">
+          <span className="font-mono text-8xl leading-none text-body sm:text-9xl">{icon.unicode}</span>
         </div>
 
         {/* Metadata */}
-        <div className="flex-1">
-          <h1 className="font-mono text-2xl font-bold text-body sm:text-3xl">{icon.name}</h1>
+        <div className="flex-1 min-w-0">
+          <h1 className="font-mono text-2xl font-bold text-body sm:text-3xl" style={{ textWrap: "balance" }}>{icon.name}</h1>
 
-          {/* Categories */}
           <div className="mt-3 flex flex-wrap gap-1.5">
             {icon.categories.map((cat, i) => (
-              <span key={cat} className={`inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[10px] font-medium capitalize ${MODE_PALETTE[i % MODE_PALETTE.length]} text-body/70`}>
-                <span className={`h-1 w-1 rounded-full bg-current opacity-60`} />
+              <span key={cat} className={`inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[10px] font-medium capitalize ${CAT_DOT[i % CAT_DOT.length]} bg-current/10`}>
+                <span className="h-1 w-1 rounded-full bg-current opacity-60" />
                 {cat}
               </span>
             ))}
           </div>
 
-          {/* Aliases */}
           {icon.aliases.length > 0 && (
             <p className="mt-2 text-xs text-muted">
               Also known as: <span className="text-body/60">{icon.aliases.join(", ")}</span>
             </p>
           )}
 
-          {/* Nerd Font key */}
           <p className="mt-1 font-mono text-[10px] text-muted/50">{icon.nerdFont}</p>
 
-          {/* Copy buttons */}
           <div className="mt-4 flex flex-wrap gap-2">
             {[
               { label: "Copy import", text: importSnippet, key: "import" },
@@ -137,9 +131,9 @@ export default function IconDetail() {
         <p className="mt-1 text-xs text-muted">How this icon renders in each fallback mode.</p>
         <div className="mt-4 grid gap-3 sm:grid-cols-3">
           {[
-            { mode: "nerd-font", glyph: icon.unicode, label: "The glyph rendered by a Nerd Font", code: nerdFontSnippet },
-            { mode: "unicode", glyph: icon.unicode, label: "Safe Unicode fallback (default)", code: importSnippet },
-            { mode: "ascii", glyph: icon.ascii, label: "Maximum compatibility ASCII fallback", code: asciiSnippet },
+            { mode: "nerd-font", glyph: icon.unicode, label: "Nerd Font glyph", code: nerdFontSnippet },
+            { mode: "unicode", glyph: icon.unicode, label: "Safe Unicode (default)", code: importSnippet },
+            { mode: "ascii", glyph: icon.ascii, label: "ASCII fallback", code: asciiSnippet },
           ].map((m) => (
             <div key={m.mode} className="flex flex-col items-center gap-2 rounded-lg border border-edge bg-surface p-5 text-center">
               <span className="font-mono text-4xl leading-none text-body">{m.glyph}</span>
@@ -156,24 +150,20 @@ export default function IconDetail() {
         </div>
       </section>
 
-      {/* Code snippets */}
+      {/* Code */}
       <section className="mt-10">
         <h2 className="font-mono text-xs font-bold tracking-[0.2em] text-accent uppercase">Usage</h2>
         <div className="mt-4 overflow-hidden rounded-lg border border-edge bg-surface">
           <div className="border-b border-edge px-4 py-2 font-mono text-[10px] tracking-wider text-muted/60">Basic import</div>
-          <pre className="overflow-x-auto px-4 py-3 font-mono text-sm leading-relaxed text-body">
-            <code>{importSnippet}</code>
-          </pre>
+          <pre className="overflow-x-auto px-4 py-3 font-mono text-sm leading-relaxed text-body"><code>{importSnippet}</code></pre>
         </div>
         <div className="mt-3 overflow-hidden rounded-lg border border-edge bg-surface">
           <div className="border-b border-edge px-4 py-2 font-mono text-[10px] tracking-wider text-muted/60">Resolver (with metadata)</div>
-          <pre className="overflow-x-auto px-4 py-3 font-mono text-sm leading-relaxed text-body">
-            <code>{resolverSnippet}</code>
-          </pre>
+          <pre className="overflow-x-auto px-4 py-3 font-mono text-sm leading-relaxed text-body"><code>{resolverSnippet}</code></pre>
         </div>
       </section>
 
-      {/* Related icons */}
+      {/* Related */}
       {related.length > 0 && (
         <section className="mt-12 border-t border-edge pt-10">
           <h2 className="font-mono text-xs font-bold tracking-[0.2em] text-accent uppercase">Related icons</h2>
@@ -192,7 +182,6 @@ export default function IconDetail() {
         </section>
       )}
 
-      {/* Toast */}
       {toast && (
         <div className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 animate-scale-in pointer-events-none">
           <div className="inline-flex items-center gap-2 rounded-lg border border-accent/20 bg-surface px-4 py-2.5 shadow-lg">
